@@ -1,0 +1,41 @@
+﻿@using System.Web.UI.WebControls
+@using Vidly.Models
+@model IEnumerable<Vidly.Models.Customer>
+
+@{
+    ViewBag.Title = "Customers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-sm-6"><h2>@ViewBag.Title</h2></div>
+    <div class="col-sm-6"><br/>@Html.ActionLink("Add New", "New", "Customers", new {}, new { @class = "btn btn-primary btn-xs pull-right" })</div>
+</div>
+
+
+
+@if (!Model.Any())
+{
+    <p>We don't have any customers yet.</p>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Discount Rate</th>
+            <th>Membership Type</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var customer in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(customer.Name, "Edit", "Customers", new { id = customer.Id }, null)</td>
+                <td>@customer.MembershipType.DiscountRate%</td>
+                <td>@customer.MembershipType.MembershipName</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
