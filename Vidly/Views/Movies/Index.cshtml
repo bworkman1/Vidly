@@ -7,7 +7,7 @@
 }
 <div class="row">
     <div class="col-sm-6"><h2>@ViewBag.Title</h2></div>
-    <div class="col-sm-6"><br />@Html.ActionLink("Add New", "New", "Movies", new {}, new { @class = "btn btn-primary btn-xs pull-right" })</div>
+    <div class="col-sm-6"><br />@Html.ActionLink("Add New", "new", "movies", new {}, new { @class = "btn btn-primary btn-xs pull-right" })</div>
 </div>
 
 @if (!Model.Any())
@@ -28,9 +28,9 @@ else
             @foreach (var movie in Model)
             {
                 <tr>
-                    <td>@Html.ActionLink(movie.Name, "Details", "Movies", new { id = movie.Id }, null)</td>
+                    <td>@Html.ActionLink(movie.Name, "details", "movies", new { id = movie.Id }, null)</td>
                     <td>@movie.Genre.Name</td>
-                    <td>@Html.ActionLink("Edit", "Edit", "Movies", new { id = movie.Id }, new { @class = "btn btn-primary btn-xs pull-right" })</td>
+                    <td>@Html.ActionLink("Edit", "edit", "movies", new { id = movie.Id }, new { @class = "btn btn-primary btn-xs pull-right" })</td>
                 </tr>
             }
         </tbody>

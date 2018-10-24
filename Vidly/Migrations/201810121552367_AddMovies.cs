@@ -13,7 +13,7 @@ namespace Vidly.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 255),
-                        ReleaseDate = c.DateTime(storeType: "date"),
+                        ReleaseDate = c.DateTime(nullable: false, storeType: "date"),
                         DateAdded = c.DateTime(nullable: false, storeType: "date"),
                         NumberInStock = c.Int(nullable: false),
                         GenreId = c.Byte(nullable: false),

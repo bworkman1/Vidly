@@ -15,13 +15,16 @@ namespace Vidly.Models
         [StringLength(255)]
         public string Name { get; set; }
 
+        [Required]
         [Column(TypeName = "Date")]
-        public DateTime? ReleaseDate { get; set; }
+        [Display(Name = "Release Date")]
+        public DateTime ReleaseDate { get; set; }
 
         [Column(TypeName = "Date")]
         public DateTime DateAdded { get; set; }
 
         [Display(Name = "Stock")]
+        [Range(1, 20)]
         public int NumberInStock { get; set; }
 
         [Display(Name = "Genre")]
