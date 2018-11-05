@@ -10,26 +10,29 @@
     <div class="form-group">
         <label>Customer</label>
         <div class="tt-container">
-            <input id="customer" type="text" value="" class="form-control"/>
+            <input id="customer" name="customer" data-rule-validCustomer="true" type="text" required="" value="" class="form-control"/>
         </div>
     </div>
 
     <div class="form-group">
         <label>Movie</label>
         <div class="tt-container">
-            <input id="movie" type="text" value="" class="form-control" />
+            <input id="movie" name="movie" data-rule-validMovie="true" type="text" value="" class="form-control" />
         </div>
     </div>
     
-    <ul id="movies" class="list-group">
-       
-    </ul>
+    <div class="row">
+        <div class="col-sm-4">
+            <ul id="movies" class="list-group"></ul>
+        </div>
+    </div>
 
     <button class="btn btn-primary">Submit</button>
 </form>
 
 @section scripts
 {
+    @Scripts.Render("~/bundles/jqueryval");
     <script>
         $(document).ready(function() {
 
@@ -54,7 +57,8 @@
                     name: 'customers',
                     display: 'name',
                     source: customers
-                }).on("typeahead:select", function(e, customer) {
+                }).on("typeahead:select",
+                function(e, customer) {
                     vm.customerId = customer.id;
                 });
 
@@ -75,13 +79,56 @@
                     name: 'movies',
                     display: 'name',
                     source: movies
-                }).on("typeahead:select", function (e, movie) {
+                }).on("typeahead:select",
+                function(e, movie) {
                     $('#movies').append("<li class='list-group-item'>" + movie.name + "</li>");
 
                     $('#movie').typeahead("val", "");
 
-                    vm.movieIds.push(movie.id);
+                    if (movie.id > 0) {
+                        vm.movieIds.push(movie.id);
+                    } else {
+                        toastr.error("Invalid movie selection, try again");
+                        $('#movie').typeahead("val", "");
+                    }
+                });
+
+            $.validator.addMethod("validCustomer",
+                function() {
+                    return vm.customerId && vm.customerId !== 0;
+                },
+                "Please select a valid customer");
+
+            $.validator.addMethod("validMovie",
+                function () {
+                    return vm.movieIds.length > 0;
+                },
+                "Please select at least one movie");
+
+            var validator = $('#movieRentalForm').validate({
+                submitHandler: function() {
+                    $.ajax({
+                            url: "/api/newRentals",
+                            method: "post",
+                            data: vm
+                        }).done(function() {
+                            toastr.success("Rentals successfully recorded");
+                            $('#movie').typeahead("val", "");
+                            $('#customer').typeahead("val", "");
+                            $('#movies').empty();
+                            vm = { movieIds: [] };
+
+                            validator.resetForm();
+                        })
+                        .fail(function() {
+                            toastr.error("Something unexpected happened");
+                        });
+
+                    return false;
+                }
             });
+
+
         })
     </script>
 }

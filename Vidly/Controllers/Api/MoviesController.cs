@@ -27,7 +27,7 @@ namespace Vidly.Controllers.Api
                 .Include(c => c.Genre);
 
             if (!String.IsNullOrWhiteSpace(query))
-                moviesQuery = moviesQuery.Where(c => c.Name.Contains(query));
+                moviesQuery = moviesQuery.Where(c => c.Name.Contains(query)).Where(c => c.NumberAvailable > 0);
 
             var moviesDtos = moviesQuery
                 .ToList()
@@ -54,7 +54,10 @@ namespace Vidly.Controllers.Api
             if (!ModelState.IsValid)
                 return BadRequest();
 
+
             var movie = Mapper.Map<MovieDto, Movies>(movieDto);
+            movie.NumberAvailable = movieDto.NumberInStock;
+
             _context.Movies.Add(movie);
             _context.SaveChanges();
 

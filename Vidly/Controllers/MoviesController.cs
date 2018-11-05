@@ -70,6 +70,8 @@ namespace Vidly.Controllers
             if (movies.Id == 0)
             {
                 movies.DateAdded = DateTime.Now;
+                movies.NumberAvailable = movies.NumberInStock;
+
                 _context.Movies.Add(movies);
             }
             else

@@ -41,17 +41,16 @@
     line-height: 24px;
 }
 
-.tt-suggestion:hover {
-    cursor: pointer;
-    color: #52656B;
-    background-color: #CDFF00;
-}
+    .tt-suggestion:hover {
+        cursor: pointer;
+        color: #fff;
+        background-color: #127ba3;
+    }
 
-.tt-suggestion.tt-cursor {
-    color: #52656B;
-    background-color: #CDFF00;
-
-}
+    .tt-suggestion.tt-cursor {
+        color: #fff;
+        background-color: #127ba3;
+    }
 
 .tt-suggestion p {
     margin: 0;
@@ -59,4 +58,7 @@
 
 .tt-container {
     position: relative;
+}
+.tt-hint {
+    display: none;
 }
