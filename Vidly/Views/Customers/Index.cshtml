@@ -29,11 +29,10 @@
 {
     <script>
         $(function() {
-            $("#customers").DataTable({
+            var table = $("#customers").DataTable({
                 ajax: {
                     url: "/api/customers/",
-                    dataSrc: "",
-                    method: "get"
+                    dataSrc: ""
                 },
                 columns: [
                     {
@@ -67,6 +66,7 @@
                 '.js-delete',
                 function() {
                     var elem = $(this);
+
                     bootbox.confirm("Are you sure you want to delete this customer?",
                         function(result) {
                             if (result) {
@@ -74,7 +74,7 @@
                                     url: "/api/customers/" + elem.attr("data-customer-id"),
                                     method: "DELETE",
                                     success: function() {
-                                        elem.parents("tr").remove();
+                                        table.row(elem.parents("tr")).remove().draw();
                                     }
                                 });
                             }
